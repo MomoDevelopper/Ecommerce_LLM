@@ -21,8 +21,8 @@ app.add_middleware(
 # ==== Gemini config ====
 import os
 API_KEY = os.getenv("GEMINI_API_KEY", "")  # À mettre en variable d'environnement
-# Utiliser gemini-2.5-flash qui est disponible et performant
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+# Utiliser gemini-2.0-flash (version stable)
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 class Product(BaseModel):
     product: str
@@ -73,14 +73,13 @@ Just write the content naturally - let it flow without section headings or numbe
     }
 
     headers = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "X-goog-api-key": API_KEY
     }
 
-    # L'API key doit être dans l'URL, pas dans le header
-    url_with_key = f"{GEMINI_URL}?key={API_KEY}"
-    
+    # L'API key doit être dans le header X-goog-api-key, pas dans l'URL
     try:
-        response = requests.post(url_with_key, json=payload, headers=headers, timeout=30)
+        response = requests.post(GEMINI_URL, json=payload, headers=headers, timeout=30)
         
         # Afficher la réponse même en cas d'erreur
         print(f"Status Code: {response.status_code}")
