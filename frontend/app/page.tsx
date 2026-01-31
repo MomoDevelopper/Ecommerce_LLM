@@ -28,16 +28,38 @@ export default function Home() {
         body: JSON.stringify({ product: input }),
       });
 
+      if (!res.ok) {
+        const errorData = await res.json();
+        let errorMessage = "Une erreur est survenue.";
+        
+        // Gestion spécifique de l'erreur 429 (quota dépassé)
+        if (res.status === 429 || errorData.result?.includes("429") || errorData.result?.includes("quota")) {
+          errorMessage = "⚠️ Quota API dépassé. Le service a atteint sa limite d'utilisation. Veuillez réessayer plus tard ou vérifier votre plan API Gemini.";
+        } else if (res.status === 400) {
+          errorMessage = "Erreur de requête. Veuillez vérifier votre saisie.";
+        } else if (res.status >= 500) {
+          errorMessage = "Erreur serveur. Veuillez réessayer plus tard.";
+        } else if (errorData.result) {
+          errorMessage = errorData.result;
+        }
+        
+        setMessages((m: Msg[]) => [
+          ...m,
+          { role: "bot", text: errorMessage }
+        ]);
+        return;
+      }
+
       const data = await res.json();
 
       setMessages((m: Msg[]) => [
         ...m,
         { role: "bot", text: data.result }
       ]);
-    } catch {
+    } catch (error) {
       setMessages((m: Msg[]) => [
         ...m,
-        { role: "bot", text: "Backend indisponible." }
+        { role: "bot", text: "Backend indisponible. Vérifiez votre connexion internet." }
       ]);
     } finally {
       setLoading(false);
@@ -52,6 +74,12 @@ export default function Home() {
 
       <div className="wrapper">
         <div className="chat-box">
+          
+          {messages.length === 0 && (
+            <div className="welcome-message">
+              <p>Entrez le nom de votre produit E-commerce pour recevoir une description.</p>
+            </div>
+          )}
 
           <div className="messages">
             {messages.map((m: Msg, i: number) => (

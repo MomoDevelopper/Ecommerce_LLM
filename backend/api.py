@@ -107,17 +107,42 @@ Just write the content naturally - let it flow without section headings or numbe
     except requests.exceptions.RequestException as e:
         # Afficher plus de détails sur l'erreur
         error_details = str(e)
+        user_friendly_message = "Une erreur est survenue lors de la génération."
+        
         if hasattr(e, 'response') and e.response is not None:
-            try:
-                error_json = e.response.json()
-                error_details = f"{error_details} - {error_json}"
-                print(f"Erreur détaillée: {error_json}")
-            except:
-                error_details = f"{error_details} - Response: {e.response.text}"
-                print(f"Erreur response text: {e.response.text}")
-        error_msg = f"Erreur API: {error_details}"
-        print(error_msg)
-        return {"result": error_msg, "raw_gemini": {}}
+            status_code = e.response.status_code
+            
+            # Gestion spécifique de l'erreur 429 (quota dépassé)
+            if status_code == 429:
+                try:
+                    error_json = e.response.json()
+                    retry_after = None
+                    if 'error' in error_json and 'details' in error_json['error']:
+                        for detail in error_json['error']['details']:
+                            if '@type' in detail and 'RetryInfo' in detail.get('@type', ''):
+                                if 'retryDelay' in detail:
+                                    retry_after = detail['retryDelay']
+                    
+                    user_friendly_message = "⚠️ Quota API dépassé. Le service a atteint sa limite d'utilisation gratuite. "
+                    if retry_after:
+                        user_friendly_message += f"Veuillez réessayer dans {retry_after}."
+                    else:
+                        user_friendly_message += "Veuillez réessayer plus tard ou vérifier votre plan API Gemini."
+                    
+                    print(f"Erreur 429 - Quota dépassé: {error_json}")
+                except:
+                    user_friendly_message = "⚠️ Quota API dépassé. Veuillez réessayer plus tard."
+                    print(f"Erreur 429 - Response: {e.response.text}")
+            else:
+                try:
+                    error_json = e.response.json()
+                    error_details = f"{error_details} - {error_json}"
+                    print(f"Erreur détaillée ({status_code}): {error_json}")
+                except:
+                    error_details = f"{error_details} - Response: {e.response.text}"
+                    print(f"Erreur response text: {e.response.text}")
+        
+        return {"result": user_friendly_message, "raw_gemini": {}}
     except Exception as e:
         error_msg = f"Erreur parsing: {str(e)}"
         print(error_msg)

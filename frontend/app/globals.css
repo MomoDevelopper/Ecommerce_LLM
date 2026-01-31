@@ -38,6 +38,20 @@ body {
   flex-direction: column;
 }
 
+/* ===== WELCOME MESSAGE ===== */
+
+.welcome-message {
+  padding: 40px 25px 20px;
+  text-align: center;
+  color: #9ca3af;
+}
+
+.welcome-message p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
 /* ===== MESSAGES ===== */
 
 .messages {
