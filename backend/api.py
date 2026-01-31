@@ -100,7 +100,17 @@ Just write the content naturally - let it flow without section headings or numbe
         return {"result": "Gemini n'a rien retourné", "raw_gemini": data}
     
     except requests.exceptions.RequestException as e:
-        error_msg = f"Erreur API: {str(e)}"
+        # Afficher plus de détails sur l'erreur
+        error_details = str(e)
+        if hasattr(e, 'response') and e.response is not None:
+            try:
+                error_json = e.response.json()
+                error_details = f"{error_details} - {error_json}"
+                print(f"Erreur détaillée: {error_json}")
+            except:
+                error_details = f"{error_details} - Response: {e.response.text}"
+                print(f"Erreur response text: {e.response.text}")
+        error_msg = f"Erreur API: {error_details}"
         print(error_msg)
         return {"result": error_msg, "raw_gemini": {}}
     except Exception as e:

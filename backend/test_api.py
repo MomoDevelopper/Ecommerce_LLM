@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("GEMINI_API_KEY", "")
-# Utiliser gemini-2.5-flash qui est disponible et performant
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+# Utiliser gemini-2.0-flash (version stable)
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
 if not API_KEY:
     print("ERREUR: GEMINI_API_KEY non trouvée dans le .env")
@@ -27,12 +27,16 @@ payload = {
     }
 }
 
-url_with_key = f"{GEMINI_URL}?key={API_KEY}"
+headers = {
+    "Content-Type": "application/json",
+    "X-goog-api-key": API_KEY
+}
 
-print(f"URL: {url_with_key}")
+print(f"URL: {GEMINI_URL}")
+print(f"Headers: {headers}")
 print(f"Payload: {json.dumps(payload, indent=2)}")
 
-response = requests.post(url_with_key, json=payload, headers={"Content-Type": "application/json"})
+response = requests.post(GEMINI_URL, json=payload, headers=headers)
 
 print(f"\nStatus Code: {response.status_code}")
 print(f"Response Text:\n{response.text}")
