@@ -16,7 +16,7 @@ export default function Home() {
     if (!input.trim()) return;
 
     const userMsg: Msg = { role: "user", text: input };
-    setMessages(m => [...m, userMsg]);
+    setMessages((m: Msg[]) => [...m, userMsg]);
     setInput("");
     setLoading(true);
 
@@ -30,12 +30,12 @@ export default function Home() {
 
       const data = await res.json();
 
-      setMessages(m => [
+      setMessages((m: Msg[]) => [
         ...m,
         { role: "bot", text: data.result }
       ]);
     } catch {
-      setMessages(m => [
+      setMessages((m: Msg[]) => [
         ...m,
         { role: "bot", text: "Backend indisponible." }
       ]);
@@ -54,11 +54,11 @@ export default function Home() {
         <div className="chat-box">
 
           <div className="messages">
-            {messages.map((m, i) => (
+            {messages.map((m: Msg, i: number) => (
               <div key={i} className={`msg ${m.role}`}>
                 {m.role === "bot" ? (
                   <div className="bot-message-content">
-                    {m.text.split('\n').map((line, idx) => {
+                    {m.text.split('\n').map((line: string, idx: number) => {
                       // Transformer les markdown en HTML simple
                       if (line.startsWith('##')) {
                         return <h3 key={idx}>{line.replace(/^#+\s/, '')}</h3>;
@@ -86,9 +86,9 @@ export default function Home() {
           <div className="input-zone">
             <input
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
               placeholder="Écris un nom de produit..."
-              onKeyDown={e => e.key === "Enter" && !loading && send()}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => e.key === "Enter" && !loading && send()}
               disabled={loading}
             />
             <button onClick={send} disabled={loading}>
