@@ -57,7 +57,7 @@ Accéder à `http://localhost:3000`
 3. Crée un nouveau "Web Service"
 4. Connecte ton repo GitHub
 5. Configure:
-   - **Build Command:** `pip install -r requirement.txt`
+   - **Build Command:** `pip install -r requirements.txt`
    - **Start Command:** `gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 api:app`
 6. Ajoute la variable d'environnement:
    - **Key:** `GEMINI_API_KEY`
