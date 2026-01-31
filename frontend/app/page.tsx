@@ -21,7 +21,14 @@ export default function Home() {
     setLoading(true);
 
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://frontend-1-61z3.onrender.com";
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      if (!backendUrl) {
+        setMessages((m: Msg[]) => [
+          ...m,
+          { role: "bot", text: "Erreur: URL du backend non configurée. Veuillez définir NEXT_PUBLIC_BACKEND_URL." }
+        ]);
+        return;
+      }
       const res = await fetch(`${backendUrl}/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
