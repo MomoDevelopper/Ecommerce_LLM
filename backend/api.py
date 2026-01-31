@@ -78,6 +78,11 @@ Just write the content naturally - let it flow without section headings or numbe
     }
 
     # L'API key doit être dans le header X-goog-api-key, pas dans l'URL
+    # Log pour déboguer
+    print(f"🔍 DEBUG - URL: {GEMINI_URL}")
+    print(f"🔍 DEBUG - API Key (first 20 chars): {API_KEY[:20]}...")
+    print(f"🔍 DEBUG - Headers: Content-Type + X-goog-api-key")
+    
     try:
         response = requests.post(GEMINI_URL, json=payload, headers=headers, timeout=30)
         
