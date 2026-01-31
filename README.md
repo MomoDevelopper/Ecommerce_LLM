@@ -73,7 +73,7 @@ Accéder à `http://localhost:3000`
    - **Root Directory:** `frontend`
 4. Ajoute la variable d'environnement:
    - **Name:** `NEXT_PUBLIC_BACKEND_URL`
-   - **Value:** L'URL de ton backend Render (ex: `https://momo-ai-backend.onrender.com`)
+   - **Value:** `https://ecommerce-llm.onrender.com`
 5. Deploy!
 
 ## Variables d'Environnement
@@ -83,9 +83,9 @@ Accéder à `http://localhost:3000`
 GEMINI_API_KEY=ta_clé_api_ici
 ```
 
-### Frontend (.env.local sur Vercel)
+### Frontend (Variables d'environnement sur Vercel)
 ```
-NEXT_PUBLIC_BACKEND_URL=https://ton-backend.onrender.com
+NEXT_PUBLIC_BACKEND_URL=https://ecommerce-llm.onrender.com
 ```
 
 ## Usage
