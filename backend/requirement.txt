@@ -1,8 +1,0 @@
-fastapi
-uvicorn[standard]
-torch
-transformers
-pydantic
-requests
-python-dotenv
-gunicorn
