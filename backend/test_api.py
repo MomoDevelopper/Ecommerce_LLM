@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("GEMINI_API_KEY", "")
-# Utiliser gemini-2.0-flash (version stable)
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+# Utiliser gemini-2.5-flash (version la plus récente et performante)
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 if not API_KEY:
     print("ERREUR: GEMINI_API_KEY non trouvée dans le .env")

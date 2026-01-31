@@ -74,7 +74,7 @@ Devrait retourner : `{"status":"backend running"}`
 
 ### Erreur 403/400 de l'API Gemini
 - Vérifiez que `GEMINI_API_KEY` est correcte sur Render
-- Vérifiez que le backend utilise le bon modèle (`gemini-2.0-flash`)
+- Vérifiez que le backend utilise le bon modèle (`gemini-2.5-flash`)
 - Vérifiez que la clé API est dans le header `X-goog-api-key`
 
 ### Build échoue sur Vercel

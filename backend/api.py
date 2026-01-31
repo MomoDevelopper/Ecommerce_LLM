@@ -21,8 +21,8 @@ app.add_middleware(
 # ==== Gemini config ====
 import os
 API_KEY = os.getenv("GEMINI_API_KEY", "")  # À mettre en variable d'environnement
-# Utiliser gemini-2.0-flash (version stable)
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+# Utiliser gemini-2.5-flash (version la plus récente et performante)
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 class Product(BaseModel):
     product: str
