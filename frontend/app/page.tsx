@@ -77,7 +77,7 @@ export default function Home() {
           
           {messages.length === 0 && (
             <div className="welcome-message">
-              <p>Entrez le nom de votre produit E-commerce pour recevoir une description.</p>
+              <p>Enter the name of your E-commerce product to receive a description.</p>
             </div>
           )}
 
