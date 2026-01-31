@@ -25,7 +25,7 @@ Une application LLM qui génère des descriptions de produits e-commerce automat
 
 ```bash
 cd backend
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 Créer `.env`:
